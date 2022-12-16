@@ -1,0 +1,48 @@
+.root {
+  @apply grid gap-0 grid-cols-1;
+
+  & > * {
+    @apply row-span-1 overflow-hidden;
+    max-height: 50em;
+
+    @screen lg {
+      height: inherit;
+    }
+  }
+}
+
+@screen lg {
+  .root {
+    @apply grid-cols-3 grid-rows-2;
+  }
+}
+
+.layoutA {
+  /* color: red; */
+}
+@screen lg {
+  .layoutA {
+    & > *:nth-child(6n + 1),
+    & > *:nth-child(6n + 5) {
+      @apply col-span-2 row-span-2;
+    }
+  }
+}
+
+.layoutB {
+}
+
+@screen lg {
+  .layoutB {
+    & > *:nth-child(6n + 2),
+    & > *:nth-child(6n + 4) {
+      @apply col-span-2 row-span-2;
+    }
+  }
+}
+
+/* .root > * {
+  @apply row-span-1 overflow-hidden;
+  height: 31.25em;
+  max-height: 50em;
+} */

@@ -1,0 +1,4 @@
+.root {
+  @apply bg-primary h-full mx-auto;
+  max-width: 153.75em;
+}
