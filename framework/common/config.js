@@ -25,7 +25,6 @@ const withFrameworkConfig = (defaultConfig = {}) => {
   const config = merge(defaultConfig, frameworkNextConfig)
 
   const tsPath = path.join(process.cwd(), 'tsconfig.json')
-  console.log(tsPath)
   const tsConfig = require(tsPath)
 
   tsConfig.compilerOptions.paths['@framework'] = [`framework/${framework}`]

@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo } from 'react'
-import { ApiConfig, ApiHooks, ApiProviderContext } from './types/api'
+import { ApiConfig, ApiProviderContext } from './types/api'
+import { ApiHooks } from './types/hooks'
 
 interface ApiProviderProps {
   children: ReactNode | ReactNode[]
@@ -14,8 +15,9 @@ export const CoreApiProvider = ({ children, config, hooks }: ApiProviderProps) =
     () => ({
       fetcher: config.fetch,
       hooks,
+      checkoutCookie: config.checkoutCookie,
     }),
-    [config.fetch, hooks]
+    [config.fetch, config.checkoutCookie, hooks]
   )
 
   return <ApiContext.Provider value={coreConfig}>{children}</ApiContext.Provider>

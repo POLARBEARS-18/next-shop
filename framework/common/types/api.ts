@@ -1,3 +1,5 @@
+import { ApiHooks } from './hooks'
+
 export type Variables = {
   [key: string]: string | undefined | any
 }
@@ -13,12 +15,7 @@ export type ApiFetcherResults<T> = {
 
 export interface ApiConfig {
   fetch<T>(options: ApiFetcherOptions): Promise<ApiFetcherResults<T>>
-}
-
-export interface ApiHooks {
-  cart: {
-    useAddItem: any
-  }
+  checkoutCookie: string
 }
 
 export type ApiFetcher<T = any> = (options: ApiFetcherOptions) => Promise<ApiFetcherResults<T>>
@@ -26,4 +23,5 @@ export type ApiFetcher<T = any> = (options: ApiFetcherOptions) => Promise<ApiFet
 export interface ApiProviderContext {
   hooks: ApiHooks
   fetcher: ApiFetcher
+  checkoutCookie: string
 }

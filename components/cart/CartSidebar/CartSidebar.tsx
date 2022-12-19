@@ -3,10 +3,12 @@ import cn from 'classnames'
 import Cross from '../../icons/Cross'
 import Bag from '../../icons/Bag'
 import { useUI } from '../../ui/context'
+import { useCart } from '../../../framework/common/cart/use-cart'
 
 const CartSidebar: FC = () => {
   const isEmpty = true
   const { closeSidebar } = useUI()
+  const cart = useCart()
 
   const rootClass = cn('h-full flex flex-col', { 'bg-secondary text-secondary': isEmpty })
 

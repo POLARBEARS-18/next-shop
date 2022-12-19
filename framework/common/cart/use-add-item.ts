@@ -1,7 +1,7 @@
-import { useHook, useMutationHook } from '../../../components/common/utils/use-hook'
+import { useHook, useMutationHook } from '../utils/use-hook'
 
 export const useAddItem = () => {
-  const hook = useHook((hook) => hook.cart.useAddItem)
+  const hook = useHook((hooks) => hooks.cart.useAddItem)
 
   return useMutationHook({ ...hook })
 }
