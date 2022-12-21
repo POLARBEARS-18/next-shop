@@ -1,0 +1,10 @@
+import { Checkout, Maybe } from '../schema'
+import { normalizeCart } from './normalize'
+
+export const checkoutToCart = (checkout?: Maybe<Checkout>) => {
+  if (!checkout) {
+    throw new Error('Missing checkout object!')
+  }
+
+  return normalizeCart(checkout)
+}

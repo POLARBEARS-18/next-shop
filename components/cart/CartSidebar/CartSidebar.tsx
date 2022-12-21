@@ -8,7 +8,8 @@ import { useCart } from '../../../framework/common/cart/use-cart'
 const CartSidebar: FC = () => {
   const isEmpty = true
   const { closeSidebar } = useUI()
-  const cart = useCart()
+  const { data } = useCart()
+  console.log(data)
 
   const rootClass = cn('h-full flex flex-col', { 'bg-secondary text-secondary': isEmpty })
 

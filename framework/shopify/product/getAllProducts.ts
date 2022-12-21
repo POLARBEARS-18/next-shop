@@ -1,7 +1,7 @@
 import { ProductConnection } from '../schema'
 import { Product } from '../../common/types/product'
 import { getAllProductsQuery } from '../utls/queries/getAllProducts'
-import { normalizeProduct } from '../utls/queries/normalize'
+import { normalizeProduct } from '../utls/normalize'
 import { ApiConfig } from '../../common/types/api'
 
 type ReturnType = {

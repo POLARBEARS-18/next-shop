@@ -1,12 +1,65 @@
 import {
+  Checkout,
+  CheckoutLineItemEdge,
   ImageEdge,
   MoneyV2,
   Product as ShopifyProduct,
   ProductOption,
   ProductVariantConnection,
   SelectedOption,
-} from '../../schema'
-import { Product } from '../../../common/types/product'
+} from '../schema'
+import { Product } from '../../common/types/product'
+import { Cart, LineItem } from '../../common/types/cart'
+
+export const normalizeCart = (checkout: Checkout): Cart => ({
+  id: checkout.id,
+  createdAt: checkout.createdAt,
+  currency: {
+    code: checkout.totalPriceV2.currencyCode,
+  },
+  taxesIncluded: checkout.taxesIncluded,
+  lineItemsSubtotalPrice: +checkout.subtotalPriceV2.amount,
+  totalPrice: checkout.totalPriceV2.amount,
+  lineItems: checkout.lineItems.edges.map(normalizeLineItem),
+  discounts: [],
+})
+
+const normalizeLineItem = ({ node: { id, title, variant, ...rest } }: CheckoutLineItemEdge): LineItem => ({
+  id,
+  variantId: String(variant?.id),
+  productId: String(variant?.id),
+  name: title,
+  path: variant?.product?.handle ?? '',
+  discounts: [],
+  // TODO: options
+  options: variant?.selectedOptions.map(({ name, value }: SelectedOption) => {
+    const option = normalizeProductOption({
+      id,
+      name,
+      values: [value],
+    })
+
+    return option
+  }),
+  variant: {
+    id: String(variant?.id),
+    sku: variant?.sku ?? '',
+    name: variant?.title,
+    // TODO: image
+    image: {
+      url:
+        process.env.NEXT_PUBLIC_FRAMEWORK === 'shopify_local'
+          ? `/image/${variant?.image?.originalSrc}`
+          : variant?.image?.originalSrc ?? '/product-image-placeholder.',
+    },
+    requiresShipping: variant?.requiresShipping ?? false,
+    // actual price
+    price: variant?.priceV2.amount,
+    // base price
+    listPrice: variant?.compareAtPriceV2?.amount,
+  },
+  ...rest,
+})
 
 const normalizeProductImages = ({ edges }: { edges: ImageEdge[] }) =>
   edges.map(({ node: { originalSrc: url, ...rest } }) => ({

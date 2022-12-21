@@ -2,7 +2,7 @@ import { ApiConfig, Variables } from '../../common/types/api'
 import { Product } from '../../common/types/product'
 import { Product as ShopifyProduct } from '../schema'
 import { getProductQuery } from '../utls/queries/get-product'
-import { normalizeProduct } from '../utls/queries/normalize'
+import { normalizeProduct } from '../utls/normalize'
 
 type FetchType = {
   productByHandle: ShopifyProduct
