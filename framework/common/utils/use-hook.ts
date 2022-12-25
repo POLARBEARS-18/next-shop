@@ -3,7 +3,7 @@ import { ApiHooks, MutationHook } from '../types/hooks'
 import { useApiProvider } from '../../shopify'
 import { ApiFetcher } from '../types/api'
 
-export const useHook = (fn: (apiHooks: ApiHooks) => MutationHook) => {
+export const useHook = <H>(fn: (apiHooks: ApiHooks) => H) => {
   const { hooks } = useApiProvider()
   return fn(hooks)
 }
@@ -34,7 +34,7 @@ const useData = (hook: any, fetcher: ApiFetcher, ctx: any) => {
     }
   }
 
-  const response = useSWR(hook.fetchOptions.query, hookFetcher, ctx.swrOptions)
+  const response = useSWR(hook.fetcherOptions.query, hookFetcher, ctx.swrOptions)
 
   return response
 }

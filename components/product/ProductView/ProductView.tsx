@@ -9,7 +9,7 @@ import Button from '../../ui/Button/Button'
 import Swatch from '../Swatch/Swatch'
 import { Choices, getVariant } from '../helpers'
 import { useUI } from '../../ui/context'
-import { useAddItem } from '../../../framework/common/cart/use-add-item'
+import useAddItem from '../../../framework/shopify/cart/use-add-item'
 
 interface Props {
   product: Product
@@ -17,6 +17,7 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
   const [choices, setChoices] = useState<Choices>({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const { openSidebar } = useUI()
   const addItem = useAddItem()
@@ -27,14 +28,19 @@ const ProductView: FC<Props> = ({ product }) => {
     try {
       const item = {
         productId: String(product.id),
-        variantId: variant?.id,
+        variantId: String(variant ? variant.id : product.variants[0].id),
         variantOptions: variant?.options,
+        quantity: 1,
       }
-      const output = await addItem(item)
-      alert(JSON.stringify(output))
+
+      setIsLoading(true)
+      await addItem(item)
+      setIsLoading(false)
 
       openSidebar()
-    } catch {}
+    } catch {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -87,7 +93,9 @@ const ProductView: FC<Props> = ({ product }) => {
             <div className="pb-14 break-words w-full max-w-xl text-lg">{product.description}</div>
           </section>
           <div>
-            <Button onClick={addToCart}>Add to Cart</Button>
+            <Button onClick={addToCart} isLoading={isLoading} className={s.button}>
+              Add to Cart
+            </Button>
           </div>
         </div>
       </div>
